@@ -8,38 +8,81 @@
 import SwiftUI
 
 struct ContentView: View {
-    let rows = [ GridItem(.fixed(80)), GridItem(.fixed(80))]
-    let colors: [Color] = [.black, .blue, .brown, .cyan, .gray, .indigo, .mint, .yellow, .orange, .purple]
+    let rows = [ GridItem(.fixed(80)), GridItem(.fixed(80)), GridItem(.fixed(80))]
+    @State private var coinData: [Coin] = []
+    var filteredCoin: [Coin] {
+        coinData.sorted { a, b in
+            a.item.marketCapRank < b.item.marketCapRank
+        }
+    }
     
     var body: some View {
         NavigationView {
-            VStack {
-                Text("My Favorite")
-                    .font(.headline)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                ScrollView(.horizontal) {
-                    LazyHStack{
-                        ForEach(0..<5) { item in
-                            favoriteList()
+            ScrollView {
+                VStack {
+                    subTilte("My Favorite")
+                    ScrollView(.horizontal) {
+                        LazyHStack{
+                            ForEach(0..<5) { item in
+                                favoriteList()
+                            }
                         }
                     }
+                    .padding(.bottom)
+                    subTilte("Top 15 Coin")
+                    ScrollView(.horizontal) {
+                          LazyHGrid(rows: rows) {
+                              ForEach(filteredCoin, id:\.self) { item in
+                                  topList(item)
+                            }
+                          }
+                        }
+                    .padding(.bottom)
+                    subTilte("Top 7 NFT")
+//                    ScrollView(.horizontal) {
+//                          LazyHGrid(rows: rows) {
+//                              ForEach(0..<10) { item in
+//                                 / topList(item)
+//                            }
+//                          }
+//                        }
                 }
-                Text("Top 15 Coin")
-                    .font(.headline)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                ScrollView(.horizontal) {
-                      LazyHGrid(rows: rows) {
-                        ForEach(colors, id: \.self) { color in
-                          RoundedRectangle(cornerRadius: 10)
-                            .frame(width: 300, height: 80)
-                            .foregroundColor(color)
-                        }
-                      }
-                    }
+                .padding()
+            
             }
-            .padding()
             .navigationTitle("Crypto Coin")
         }
+        .onAppear {
+            NetworkManager.shared.callRequest { value in
+                coinData = value.coins
+            }
+
+        }
+    }
+    
+    func subTilte(_ title: String) -> some View {
+        Text(title)
+            .font(.headline)
+            .frame(maxWidth: .infinity, alignment: .leading)
+    }
+    
+    func topList(_ item: Coin) -> some View {
+        HStack{
+            Text("\(item.item.marketCapRank)")
+            AsyncImage(url: URL(string: item.item.small)!)
+            VStack{
+                Text("\(item.item.name)")
+                Text("\(item.item.symbol)")
+            }
+            Spacer()
+            VStack{
+                Text("\(item.item.data.price)")
+                Text("\(String(describing: item.item.data.priceChangePercentage24H["krw"]))")
+            }
+          
+        }
+        .padding()
+        .frame(width:300)
     }
     
     func favoriteList() -> some View {
