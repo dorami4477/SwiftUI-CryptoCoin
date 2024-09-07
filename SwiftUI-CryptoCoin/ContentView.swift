@@ -31,7 +31,7 @@ struct ContentView: View {
                     .padding(.bottom)
                     subTilte("Top 15 Coin")
                     ScrollView(.horizontal) {
-                          LazyHGrid(rows: rows) {
+                          LazyHGrid(rows: rows, spacing: 30) {
                               ForEach(filteredCoin, id:\.self) { item in
                                   topList(item)
                             }
@@ -39,13 +39,13 @@ struct ContentView: View {
                         }
                     .padding(.bottom)
                     subTilte("Top 7 NFT")
-//                    ScrollView(.horizontal) {
-//                          LazyHGrid(rows: rows) {
-//                              ForEach(0..<10) { item in
-//                                 / topList(item)
-//                            }
-//                          }
-//                        }
+                    ScrollView(.horizontal) {
+                          LazyHGrid(rows: rows) {
+                              ForEach(filteredCoin, id:\.self) { item in
+                                  topList(item)
+                            }
+                          }
+                        }
                 }
                 .padding()
             
@@ -67,21 +67,24 @@ struct ContentView: View {
     }
     
     func topList(_ item: Coin) -> some View {
-        HStack{
+        HStack {
             Text("\(item.item.marketCapRank)")
             AsyncImage(url: URL(string: item.item.small)!)
-            VStack{
+            VStack(alignment: .leading) {
                 Text("\(item.item.name)")
                 Text("\(item.item.symbol)")
+                    .font(.caption)
+                    .foregroundStyle(.gray)
             }
             Spacer()
-            VStack{
+            VStack(alignment: .trailing) {
                 Text("\(item.item.data.price)")
-                Text("\(String(describing: item.item.data.priceChangePercentage24H["krw"]))")
+                Text("\(item.item.data.priceChangePercentage24H["krw"]!)")
+                    .font(.caption)
+                    .foregroundStyle(.red)
             }
           
         }
-        .padding()
         .frame(width:300)
     }
     
