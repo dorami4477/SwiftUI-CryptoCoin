@@ -32,26 +32,10 @@ struct TrendingView: View {
                             }
                         }
                         .padding(.bottom)
-                        subTilte("Top 15 Coin")
-                        ScrollView(.horizontal) {
-                            LazyHGrid(rows: rows, spacing: 30) {
-                                ForEach(filteredCoin, id:\.self) { item in
-                                    topList(item)
-                                }
-                            }
-                        }
-                        .padding(.bottom)
-                        subTilte("Top 7 NFT")
-                        ScrollView(.horizontal) {
-                            LazyHGrid(rows: rows, spacing: 30) {
-                                ForEach(filteredNft, id:\.self) { item in
-                                    topNftList(item)
-                                }
-                            }
-                        }
+                        rowGroup("Top 15 Coin", items: filteredCoin)
+                        rowGroup("Top 7 NFT", items: filteredNft)
                     }
                     .padding()
-                    
                 }
                 .navigationTitle("Crypto Coin")
                 .toolbar {
@@ -66,9 +50,26 @@ struct TrendingView: View {
 //                    NetworkManager.shared.callRequest { value in
 //                        coinData = value
 //                    }
-//                    
 //                }
             }
+    }
+    
+    func rowGroup<item: Hashable>(_ title: String, items: [item]) -> some View{
+        VStack{
+            subTilte(title)
+            ScrollView(.horizontal) {
+                LazyHGrid(rows: rows, spacing: 30) {
+                    ForEach(items.indices, id: \.self) { index in
+                        if let coin = items as? [Coin] {
+                            topList(coin[index], index: index)
+                        } else if let ntf = items as? [Nft] {
+                            topNftList(ntf[index], index: index)
+                        }
+                    }
+                }
+            }
+            .padding(.bottom)
+        }
     }
     
     func subTilte(_ title: String) -> some View {
@@ -77,9 +78,9 @@ struct TrendingView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
     }
     
-    func topList(_ item: Coin) -> some View {
+    func topList(_ item: Coin, index: Int) -> some View {
         HStack {
-            Text("\(item.item.marketCapRank)")
+            Text("\(index + 1)")
             AsyncImage(url: URL(string: item.item.small)!)
                 .clipShape(Circle())
             VStack(alignment: .leading) {
@@ -99,9 +100,9 @@ struct TrendingView: View {
         .frame(width:300)
     }
     
-    func topNftList(_ item: Nft) -> some View {
+    func topNftList(_ item: Nft, index: Int) -> some View {
         HStack {
-            Text("1")
+            Text("\(index + 1)")
             AsyncImage(url: URL(string: item.thumb)!)
                 .clipShape(Circle())
             VStack(alignment: .leading) {
