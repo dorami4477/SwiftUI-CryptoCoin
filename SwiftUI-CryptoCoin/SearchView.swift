@@ -51,6 +51,8 @@ struct SearchView: View {
             VStack(alignment: .leading) {
                 Text("\(item.name)")
                 Text("\(item.symbol)")
+                    .font(.caption)
+                    .foregroundStyle(.gray)
             }
             Spacer()
             Image(systemName: "star")

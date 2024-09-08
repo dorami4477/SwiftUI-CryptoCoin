@@ -46,11 +46,11 @@ struct TrendingView: View {
                     }
                     
                 }
-//                .onAppear {
-//                    NetworkManager.shared.callRequest { value in
-//                        coinData = value
-//                    }
-//                }
+                .onAppear {
+                    NetworkManager.shared.callRequest { value in
+                        coinData = value
+                    }
+                }
             }
     }
     
@@ -79,7 +79,8 @@ struct TrendingView: View {
     }
     
     func topList(_ item: Coin, index: Int) -> some View {
-        HStack {
+        let chanage = item.item.data.priceChangePercentage24H["krw"]!
+        return HStack {
             Text("\(index + 1)")
             AsyncImage(url: URL(string: item.item.small)!)
                 .clipShape(Circle())
@@ -92,9 +93,9 @@ struct TrendingView: View {
             Spacer()
             VStack(alignment: .trailing) {
                 Text("\(item.item.data.price)")
-                Text("\(item.item.data.priceChangePercentage24H["krw"]!)")
+                Text(chanage > 0 ? "+\(String(format: "%.2f", chanage))%" : "\(String(format: "%.2f", chanage))%")
                     .font(.caption)
-                    .foregroundStyle(.red)
+                    .foregroundStyle(chanage > 0 ? .red : .blue)
             }
         }
         .frame(width:300)
