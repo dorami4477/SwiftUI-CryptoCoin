@@ -62,12 +62,12 @@ struct TrendingView: View {
                     }
                     
                 }
-                .onAppear {
-                    NetworkManager.shared.callRequest { value in
-                        coinData = value
-                    }
-                    
-                }
+//                .onAppear {
+//                    NetworkManager.shared.callRequest { value in
+//                        coinData = value
+//                    }
+//                    
+//                }
             }
     }
     
@@ -81,6 +81,7 @@ struct TrendingView: View {
         HStack {
             Text("\(item.item.marketCapRank)")
             AsyncImage(url: URL(string: item.item.small)!)
+                .clipShape(Circle())
             VStack(alignment: .leading) {
                 Text("\(item.item.name)")
                 Text("\(item.item.symbol)")
@@ -100,8 +101,9 @@ struct TrendingView: View {
     
     func topNftList(_ item: Nft) -> some View {
         HStack {
-            Text("\(item.id)")
+            Text("1")
             AsyncImage(url: URL(string: item.thumb)!)
+                .clipShape(Circle())
             VStack(alignment: .leading) {
                 Text("\(item.name)")
                 Text("\(item.symbol)")

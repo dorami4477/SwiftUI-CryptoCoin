@@ -26,4 +26,18 @@ final class NetworkManager {
             }
         }
     }
+    
+    func callSearchRequest(search: String, completion: @escaping (Search) -> Void) {
+    //func callRequest() {
+        let url = "https://api.coingecko.com/api/v3/search?query=\(search)"
+        AF.request(url).responseDecodable(of: Search.self) { response in
+            switch response.result{
+            case .success(let value):
+                completion(value)
+                print(value.coins)
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
 }
