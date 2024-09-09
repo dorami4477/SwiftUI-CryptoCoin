@@ -16,4 +16,22 @@ struct SearchCoin: Decodable, Hashable {
     let name: String
     let symbol: String
     let thumb: String
+    var like: Bool
+    
+    enum CodingKeys: CodingKey {
+        case id
+        case name
+        case symbol
+        case thumb
+        case like
+    }
+    
+    init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.id = try container.decode(String.self, forKey: .id)
+        self.name = try container.decode(String.self, forKey: .name)
+        self.symbol = try container.decode(String.self, forKey: .symbol)
+        self.thumb = try container.decode(String.self, forKey: .thumb)
+        self.like = false 
+    }
 }

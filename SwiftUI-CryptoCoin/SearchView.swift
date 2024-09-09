@@ -15,8 +15,8 @@ struct SearchView: View {
         NavigationView {
             ScrollView{
                 LazyVStack{
-                    ForEach(searchData, id:\.self) { item in
-                        searchResult(item)
+                    ForEach($searchData, id:\.id) { $item in
+                        searchResult($item)
                     }
                 }
                 .padding(.horizontal)
@@ -40,22 +40,27 @@ struct SearchView: View {
 
     }
     
-    func searchResult(_ item: SearchCoin) -> some View {
+    func searchResult(_ item: Binding<SearchCoin>) -> some View {
+        
         HStack{
-            AsyncImage(url: URL(string: item.thumb)){ result in
+            AsyncImage(url: URL(string: item.wrappedValue.thumb)){ result in
                 result.image?
                     .resizable()
                     .scaledToFill()
             }
             .frame(width: 40, height: 40)
             VStack(alignment: .leading) {
-                Text("\(item.name)")
-                Text("\(item.symbol)")
+                Text("\(item.wrappedValue.name)")
+                Text("\(item.wrappedValue.symbol)")
                     .font(.caption)
                     .foregroundStyle(.gray)
             }
             Spacer()
-            Image(systemName: "star")
+            Button {
+                item.like.wrappedValue.toggle()
+            } label: {
+                Image(systemName: item.wrappedValue.like ? "star.fill" : "star")
+            }
         }
         .padding(.vertical)
     }
