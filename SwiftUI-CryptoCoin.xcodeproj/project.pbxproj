@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		483DBBA32C8EFE8100C775BF /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 483DBBA22C8EFE8100C775BF /* RealmSwift */; };
+		483DBBA62C8F09AF00C775BF /* Favorite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483DBBA52C8F09AF00C775BF /* Favorite.swift */; };
+		483DBBA82C8F0A6C00C775BF /* FavoriteRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483DBBA72C8F0A6C00C775BF /* FavoriteRepository.swift */; };
+		483DBBB52C8FE02500C775BF /* Market.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483DBBB42C8FE02500C775BF /* Market.swift */; };
 		4857A9802C8AA34F00BC8F0D /* SwiftUI_CryptoCoinApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4857A97F2C8AA34F00BC8F0D /* SwiftUI_CryptoCoinApp.swift */; };
 		4857A9822C8AA34F00BC8F0D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4857A9812C8AA34F00BC8F0D /* ContentView.swift */; };
 		4857A9842C8AA35100BC8F0D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4857A9832C8AA35100BC8F0D /* Assets.xcassets */; };
@@ -20,6 +24,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		483DBBA52C8F09AF00C775BF /* Favorite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Favorite.swift; sourceTree = "<group>"; };
+		483DBBA72C8F0A6C00C775BF /* FavoriteRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteRepository.swift; sourceTree = "<group>"; };
+		483DBBB42C8FE02500C775BF /* Market.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Market.swift; sourceTree = "<group>"; };
 		4857A97C2C8AA34F00BC8F0D /* SwiftUI-CryptoCoin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SwiftUI-CryptoCoin.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4857A97F2C8AA34F00BC8F0D /* SwiftUI_CryptoCoinApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUI_CryptoCoinApp.swift; sourceTree = "<group>"; };
 		4857A9812C8AA34F00BC8F0D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -37,6 +44,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				483DBBA32C8EFE8100C775BF /* RealmSwift in Frameworks */,
 				4857A9952C8AE78800BC8F0D /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -44,6 +52,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		483DBBA42C8EFE9300C775BF /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				483DBBA52C8F09AF00C775BF /* Favorite.swift */,
+				483DBBA72C8F0A6C00C775BF /* FavoriteRepository.swift */,
+			);
+			path = Database;
+			sourceTree = "<group>";
+		};
 		4857A9732C8AA34F00BC8F0D = {
 			isa = PBXGroup;
 			children = (
@@ -63,6 +80,7 @@
 		4857A97E2C8AA34F00BC8F0D /* SwiftUI-CryptoCoin */ = {
 			isa = PBXGroup;
 			children = (
+				483DBBA42C8EFE9300C775BF /* Database */,
 				4857A9902C8ADD9900BC8F0D /* Network */,
 				4857A98D2C8ADC2700BC8F0D /* Model */,
 				4857A97F2C8AA34F00BC8F0D /* SwiftUI_CryptoCoinApp.swift */,
@@ -88,6 +106,7 @@
 			children = (
 				4857A98E2C8ADC3700BC8F0D /* Trending.swift */,
 				4857A99C2C8CA9D100BC8F0D /* Search.swift */,
+				483DBBB42C8FE02500C775BF /* Market.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -118,6 +137,7 @@
 			name = "SwiftUI-CryptoCoin";
 			packageProductDependencies = (
 				4857A9942C8AE78800BC8F0D /* Alamofire */,
+				483DBBA22C8EFE8100C775BF /* RealmSwift */,
 			);
 			productName = "SwiftUI-CryptoCoin";
 			productReference = 4857A97C2C8AA34F00BC8F0D /* SwiftUI-CryptoCoin.app */;
@@ -149,6 +169,7 @@
 			mainGroup = 4857A9732C8AA34F00BC8F0D;
 			packageReferences = (
 				4857A9932C8AE78800BC8F0D /* XCRemoteSwiftPackageReference "Alamofire" */,
+				483DBBA12C8EFE8100C775BF /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			productRefGroup = 4857A97D2C8AA34F00BC8F0D /* Products */;
 			projectDirPath = "";
@@ -177,12 +198,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				4857A9922C8ADDAD00BC8F0D /* NetworkManager.swift in Sources */,
+				483DBBA62C8F09AF00C775BF /* Favorite.swift in Sources */,
+				483DBBA82C8F0A6C00C775BF /* FavoriteRepository.swift in Sources */,
 				4857A98F2C8ADC3700BC8F0D /* Trending.swift in Sources */,
 				4857A9822C8AA34F00BC8F0D /* ContentView.swift in Sources */,
 				4857A9992C8C9E4C00BC8F0D /* TrendingView.swift in Sources */,
 				4857A99B2C8C9F3A00BC8F0D /* SearchView.swift in Sources */,
 				4857A9802C8AA34F00BC8F0D /* SwiftUI_CryptoCoinApp.swift in Sources */,
 				4857A99D2C8CA9D100BC8F0D /* Search.swift in Sources */,
+				483DBBB52C8FE02500C775BF /* Market.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -390,6 +414,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		483DBBA12C8EFE8100C775BF /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		4857A9932C8AE78800BC8F0D /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
@@ -401,6 +433,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		483DBBA22C8EFE8100C775BF /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 483DBBA12C8EFE8100C775BF /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
 		4857A9942C8AE78800BC8F0D /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 4857A9932C8AE78800BC8F0D /* XCRemoteSwiftPackageReference "Alamofire" */;

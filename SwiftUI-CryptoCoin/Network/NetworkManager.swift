@@ -40,4 +40,18 @@ final class NetworkManager {
             }
         }
     }
+    
+    func callMarketRequest(id: String, completion: @escaping ([Market]) -> Void) {
+        
+        let url = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=krw&ids=\(id)"
+        AF.request(url).responseDecodable(of: [Market].self) { response in
+            switch response.result{
+            case .success(let value):
+                completion(value)
+
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
 }

@@ -10,6 +10,8 @@ import SwiftUI
 struct TrendingView: View {
     let rows = [ GridItem(.fixed(80)), GridItem(.fixed(80)), GridItem(.fixed(80))]
     @State private var coinData = Trending(coins: [], nfts: [])
+    @State private var marketData: [Market] = []
+    private let repository = FavoriteRepository()
     var filteredCoin: [Coin] {
         coinData.coins.sorted { a, b in
             a.item.marketCapRank < b.item.marketCapRank
@@ -26,8 +28,8 @@ struct TrendingView: View {
                         subTilte("My Favorite")
                         ScrollView(.horizontal) {
                             LazyHStack{
-                                ForEach(0..<5) { item in
-                                    favoriteList()
+                                ForEach(marketData, id: \.id) { item in
+                                    favoriteList(item)
                                 }
                             }
                         }
@@ -50,8 +52,18 @@ struct TrendingView: View {
                     NetworkManager.shared.callRequest { value in
                         coinData = value
                     }
+                    getFavData()
                 }
             }
+    }
+    
+    func getFavData() {
+        guard let allItem = repository?.fetchAllItem(true) else { return }
+        _ = allItem.map { item in
+            NetworkManager.shared.callMarketRequest(id: item.id) { value in
+                marketData.append(contentsOf: value)
+            }
+        }
     }
     
     func rowGroup<item: Hashable>(_ title: String, items: [item]) -> some View{
@@ -123,33 +135,46 @@ struct TrendingView: View {
         .frame(width:300)
     }
     
-    func favoriteList() -> some View {
+    func favoriteList(_ item: Market) -> some View {
         ZStack{
             RoundedRectangle(cornerRadius: 20)
                 .fill(.gray.opacity(0.2))
                 .frame(width: 220, height: 160)
             VStack{
                 HStack{
-                    Image(systemName: "heart")
-                        .resizable()
-                        .scaledToFit()
-                        .background(.yellow)
-                        .clipShape(Circle())
-                        .frame(width: 40, height: 40)
+                    AsyncImage(url: URL(string: item.image)!) { result in
+                        result.image?
+                            .resizable()
+                            .scaledToFill()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 30, height: 30)
+                            .clipShape(Circle())
+
+                    }
+
+//                    Circle()
+//                        .fill(.clear)
+//                        .frame(width: 30, height: 30)
+//                        .overlay(
+//                            Image(systemName: "star")
+//                                .resizable()
+//                                .scaledToFill()
+//                        )
+                    
                     
                     VStack(alignment: .leading) {
-                        Text("Bitcoin")
-                        Text("BTC")
+                        Text("\(item.name)")
+                        Text("\(item.symbol)")
                             .font(.caption)
                             .foregroundStyle(.gray)
                     }
                     Spacer()
                 }
                 Spacer()
-                Text("69,234,245")
+                Text("\(item.currentPrice)")
                     .font(.title2)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                Text("+0.64%")
+                Text("\(item.priceChangePercentage24H)")
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
             .padding()

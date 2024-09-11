@@ -10,13 +10,19 @@ import SwiftUI
 struct SearchView: View {
     @State private var searchText = ""
     @State private var searchData: [SearchCoin] = []
+    private let repository = FavoriteRepository()
     
     var body: some View {
         NavigationView {
             ScrollView{
                 LazyVStack{
-                    ForEach($searchData, id:\.id) { $item in
-                        searchResult($item)
+                    ForEach(searchData, id:\.id) { item in
+                        NavigationLink {
+                            //TrendingView()
+                        } label: {
+                            searchResult(item)
+                        }
+                    
                     }
                 }
                 .padding(.horizontal)
@@ -40,30 +46,49 @@ struct SearchView: View {
 
     }
     
-    func searchResult(_ item: Binding<SearchCoin>) -> some View {
+    func searchResult(_ item: SearchCoin) -> some View {
         
         HStack{
-            AsyncImage(url: URL(string: item.wrappedValue.thumb)){ result in
+            AsyncImage(url: URL(string: item.thumb)){ result in
                 result.image?
                     .resizable()
                     .scaledToFill()
             }
             .frame(width: 40, height: 40)
             VStack(alignment: .leading) {
-                Text("\(item.wrappedValue.name)")
-                Text("\(item.wrappedValue.symbol)")
+                Text("\(item.name)")
+                Text("\(item.symbol)")
                     .font(.caption)
                     .foregroundStyle(.gray)
             }
             Spacer()
             Button {
-                item.like.wrappedValue.toggle()
+                toggleFavorite(item: item)
             } label: {
-                Image(systemName: item.wrappedValue.like ? "star.fill" : "star")
+                Image(systemName: isFavorite(item.id) ? "star.fill" : "star")
             }
         }
         .padding(.vertical)
     }
+    
+    func toggleFavorite(item: SearchCoin) {
+        print(item.id)
+        if let likedItem = repository?.fetchSingleItem(item.id) {
+            repository?.deleteData(data: likedItem)
+        } else {
+            let data = Favorite(id: item.id, name: item.name, symbol: item.symbol, thumb: item.thumb)
+            repository?.createData(data: data)
+        }
+        
+        if let index = searchData.firstIndex(where: { $0.id == item.id }) {
+            searchData[index].like.toggle()
+        }
+    }
+    
+    func isFavorite(_ id: String) -> Bool {
+            return repository?.fetchSingleItem(id) != nil
+    }
+    
 }
 
 #Preview {
